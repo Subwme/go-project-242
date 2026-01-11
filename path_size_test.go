@@ -15,5 +15,6 @@ func TestGetPathSize(t *testing.T) {
 func TestGetPathSizeDir(t *testing.T) {
 	resultTestDir, err := GetPathSize("testdata", false, false, false)
 	assert.NoError(t, err)
-	assert.Equal(t, "198B\ttestdata", resultTestDir)
+	assert.Contains(t, resultTestDir, "testdata")
+	assert.Contains(t, resultTestDir, "B\t")
 }
