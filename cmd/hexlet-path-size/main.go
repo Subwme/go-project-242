@@ -15,7 +15,7 @@ func main() {
 		Name:  "hexlet-path-size",
 		Usage: "print size of a file or directory",
 		Action: func(context.Context, *cli.Command) error {
-			result, err := goproject242.GetPathSize("path_size.go", false, false, false)
+			result, err := goproject242.GetPathSize("testdata", false, false, false)
 			if err != nil {
 				log.Fatal(err)
 			}
