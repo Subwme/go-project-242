@@ -1,6 +1,7 @@
 package main
 
 import (
+	goproject242 "code"
 	"context"
 	"fmt"
 	"log"
@@ -14,7 +15,12 @@ func main() {
 		Name:  "hexlet-path-size",
 		Usage: "print size of a file or directory",
 		Action: func(context.Context, *cli.Command) error {
-			fmt.Println("Hello friend!")
+			result, err := goproject242.GetPathSize("path_size.go", false, false, false)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			fmt.Println(result)
 			return nil
 		},
 	}
@@ -22,4 +28,5 @@ func main() {
 	if err := cmd.Run(context.Background(), os.Args); err != nil {
 		log.Fatal(err)
 	}
+
 }
