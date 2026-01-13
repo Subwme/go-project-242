@@ -11,22 +11,29 @@ import (
 )
 
 func main() {
-	cmd := &cli.Command{
-		Name:  "hexlet-path-size",
-		Usage: "print size of a file or directory",
-		Action: func(context.Context, *cli.Command) error {
-			result, err := goproject242.GetPathSize("testdata", false, false, false)
+	app := &cli.Command{
+		Name: "hexlet-path-size",
+		Flags: []cli.Flag{
+			&cli.BoolFlag{
+				Name:  "human",
+				Usage: "human-readable sizes (auto-select unit)",
+			},
+		},
+		Action: func(ctx context.Context, c *cli.Command) error {
+			human := c.Bool("human")
+			path := c.Args().First()
+			if path == "" {
+				path = "."
+			}
+			result, err := goproject242.GetPathSize(path, false, human, false)
 			if err != nil {
 				log.Fatal(err)
 			}
-
 			fmt.Println(result)
 			return nil
+
 		},
 	}
 
-	if err := cmd.Run(context.Background(), os.Args); err != nil {
-		log.Fatal(err)
-	}
-
+	app.Run(context.Background(), os.Args)
 }
