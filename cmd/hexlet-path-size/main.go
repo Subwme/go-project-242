@@ -16,7 +16,7 @@ func main() {
 		Flags: []cli.Flag{
 			&cli.BoolFlag{
 				Name:    "human",
-				Aliases: []string{"hm"},
+				Aliases: []string{"H"},
 				Usage:   "human-readable sizes (auto-select unit)",
 			},
 			&cli.BoolFlag{
@@ -24,17 +24,23 @@ func main() {
 				Aliases: []string{"a"},
 				Usage:   "include hidden files and directories",
 			},
+			&cli.BoolFlag{
+				Name:    "recursive",
+				Aliases: []string{"r"},
+				Usage:   "recursive size of directories",
+			},
 		},
 		Action: func(ctx context.Context, c *cli.Command) error {
 			human := c.Bool("human")
 			all := c.Bool("all")
+			recursive := c.Bool("recursive")
 
 			path := c.Args().First()
 			if path == "" {
 				path = "."
 			}
 
-			result, err := goproject242.GetPathSize(path, false, human, all)
+			result, err := goproject242.GetPathSize(path, recursive, human, all)
 			if err != nil {
 				log.Fatal(err)
 			}

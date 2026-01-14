@@ -3,23 +3,23 @@ package goproject242
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 )
 
-func GetPathSize(path string, recursive, human, all bool) (string, error) {
+func calculateSize(path string, recursive, all bool) (int64, error) {
 	info, err := os.Lstat(path)
 	if err != nil {
-		return "", err
+		return 0, err
 	}
 
 	if !info.IsDir() {
-		result := FormatSize(info.Size(), human)
-		return fmt.Sprintf("%s\t%s", result, path), nil
+		return info.Size(), nil
 	}
 
 	files, err := os.ReadDir(path)
 	if err != nil {
-		return "", err
+		return 0, err
 	}
 
 	var totalSize int64
@@ -27,15 +27,34 @@ func GetPathSize(path string, recursive, human, all bool) (string, error) {
 		if !all && strings.HasPrefix(file.Name(), ".") {
 			continue
 		}
-		
-		fileInfo, err := file.Info()
-		if err != nil {
-			return "", err
+
+		fullPath := filepath.Join(path, file.Name())
+
+		if file.IsDir() && recursive {
+			subSize, err := calculateSize(fullPath, recursive, all)
+			if err != nil {
+				return 0, err
+			}
+			totalSize += subSize
+		} else {
+			fileInfo, err := file.Info()
+			if err != nil {
+				return 0, err
+			}
+			totalSize += fileInfo.Size()
 		}
-		totalSize += fileInfo.Size()
 	}
-	
-	result := FormatSize(totalSize, human)
+
+	return totalSize, nil
+}
+
+func GetPathSize(path string, recursive, human, all bool) (string, error) {
+	size, err := calculateSize(path, recursive, all)
+	if err != nil {
+		return "", err
+	}
+
+	result := FormatSize(size, human)
 	return fmt.Sprintf("%s\t%s", result, path), nil
 }
 
