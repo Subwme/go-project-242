@@ -3,6 +3,7 @@ package goproject242
 import (
 	"fmt"
 	"os"
+	"strings"
 )
 
 func GetPathSize(path string, recursive, human, all bool) (string, error) {
@@ -23,6 +24,10 @@ func GetPathSize(path string, recursive, human, all bool) (string, error) {
 
 	var totalSize int64
 	for _, file := range files {
+		if !all && strings.HasPrefix(file.Name(), ".") {
+			continue
+		}
+		
 		fileInfo, err := file.Info()
 		if err != nil {
 			return "", err
