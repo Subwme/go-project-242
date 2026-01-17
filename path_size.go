@@ -1,7 +1,6 @@
 package code
 
 import (
-	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -55,5 +54,5 @@ func GetPathSize(path string, recursive, human, all bool) (string, error) {
 	}
 
 	result := FormatSize(size, human)
-	return fmt.Sprintf("%s\t%s", result, path), nil
+	return result, nil
 }
