@@ -1,7 +1,7 @@
 package main
 
 import (
-	goproject242 "code"
+	"code"
 	"context"
 	"fmt"
 	"log"
@@ -40,7 +40,7 @@ func main() {
 				path = "."
 			}
 
-			result, err := goproject242.GetPathSize(path, recursive, human, all)
+			result, err := code.GetPathSize(path, recursive, human, all)
 			if err != nil {
 				log.Fatal(err)
 			}
