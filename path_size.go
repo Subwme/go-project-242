@@ -29,12 +29,15 @@ func calculateSize(path string, recursive, all bool) (int64, error) {
 
 		fullPath := filepath.Join(path, file.Name())
 
-		if file.IsDir() && recursive {
-			subSize, err := calculateSize(fullPath, recursive, all)
-			if err != nil {
-				return 0, err
+		if file.IsDir() {
+			if recursive {
+				subSize, err := calculateSize(fullPath, recursive, all)
+				if err != nil {
+					return 0, err
+				}
+				totalSize += subSize
 			}
-			totalSize += subSize
+			// Если не recursive, пропускаем директории
 		} else {
 			fileInfo, err := file.Info()
 			if err != nil {
