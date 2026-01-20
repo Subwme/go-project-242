@@ -9,7 +9,4 @@ lint:
 	golangci-lint run ./...
 
 run:
-	./bin/hexlet-path-size
-
-tes:
-	go test -v 
+	./bin/hexlet-path-size 

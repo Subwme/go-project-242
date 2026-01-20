@@ -31,14 +31,14 @@ func main() {
 			},
 		},
 		Action: func(ctx context.Context, c *cli.Command) error {
+			path := c.Args().First()
+			if path == "" {
+				return cli.ShowAppHelp(c)
+			}
+
 			human := c.Bool("human")
 			all := c.Bool("all")
 			recursive := c.Bool("recursive")
-
-			path := c.Args().First()
-			if path == "" {
-				path = "."
-			}
 
 			result, err := code.GetPathSize(path, recursive, human, all)
 			if err != nil {

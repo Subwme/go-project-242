@@ -37,7 +37,6 @@ func calculateSize(path string, recursive, all bool) (int64, error) {
 				}
 				totalSize += subSize
 			}
-			// Если не recursive, пропускаем директории
 		} else {
 			fileInfo, err := file.Info()
 			if err != nil {
@@ -56,6 +55,6 @@ func GetPathSize(path string, recursive, human, all bool) (string, error) {
 		return "", err
 	}
 
-	result := FormatSize(size, human)
+	result := formatSize(size, human)
 	return result, nil
 }

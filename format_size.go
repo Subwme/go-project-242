@@ -2,7 +2,7 @@ package code
 
 import "fmt"
 
-func FormatSize(size int64, human bool) string {
+func formatSize(size int64, human bool) string {
 	if !human {
 		return fmt.Sprintf("%dB", size)
 	}
